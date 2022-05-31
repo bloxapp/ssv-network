@@ -25,6 +25,16 @@ contract SSVRegistry is Initializable, OwnableUpgradeable, ISSVRegistry {
         uint256 indexInOwner;
     }
 
+    struct DistributedKey {
+        uint requestTime;
+        address ownerAddress;
+        uint256[] operatorIds;
+        bytes publicKey;
+        uint256 confirmations;
+        bytes[] sharesPublicKeys;
+        bytes[] encryptedKeys;
+    }
+
     struct OperatorFee {
         uint256 blockNumber;
         uint256 fee;
@@ -38,9 +48,11 @@ contract SSVRegistry is Initializable, OwnableUpgradeable, ISSVRegistry {
     uint256 private _activeValidatorCount;
 
     Counters.Counter private _lastOperatorId;
+    Counters.Counter private _lastDistributedKeyId;
 
     mapping(uint256 => Operator) private _operators;
     mapping(bytes => Validator) private _validators;
+    mapping(uint256 => DistributedKey) private _distributedKeys;
     mapping(uint256 => OperatorFee[]) private _operatorFees;
 
     mapping(address => uint256[]) private _operatorsByOwnerAddress;
@@ -144,9 +156,68 @@ contract SSVRegistry is Initializable, OwnableUpgradeable, ISSVRegistry {
     }
 
     /**
+     * @dev See {ISSVRegistry-requestDistributedKey}.
+     */
+     function requestDistributedKey(
+        address ownerAddress,
+        uint256[] calldata operatorIds
+    ) external override returns (uint256 distributedKeyId) {
+        require(operatorIds.length >= 4 && operatorIds.length <= 255, "invalid number of operators");
+        _lastDistributedKeyId.increment();
+        distributedKeyId = _lastDistributedKeyId.current();
+        DistributedKey storage distributedKey = _distributedKeys[distributedKeyId];
+        distributedKey.requestTime = block.timestamp;
+        distributedKey.ownerAddress = ownerAddress;
+        distributedKey.operatorIds = operatorIds;
+        emit DistributedKeyRequested(distributedKeyId, ownerAddress, operatorIds);
+    }
+
+    /**
+     * @dev See {ISSVRegistry-reportDistributedKey}.
+     */
+    function reportDistributedKey(
+        uint256 operatorId,
+        uint256 distributedKeyId,
+        uint256 operatorIndex,
+        bytes calldata publicKey,
+        bytes calldata sharePublicKey,
+        bytes calldata encryptedKey
+    ) external onlyOwner override returns (bool) {
+        DistributedKey storage distributedKey = _distributedKeys[distributedKeyId];
+        require(distributedKey.operatorIds[operatorIndex - 1] == operatorId, "operatorId mismatch");
+
+        if (distributedKey.publicKey.length == 0) {
+            // First report
+            distributedKey.publicKey = publicKey;
+        } else {
+            // Subsequent reports
+            require(keccak256(distributedKey.publicKey) == keccak256(publicKey), "disagreement in public key");
+        }
+
+        distributedKey.sharesPublicKeys[operatorIndex - 1] = sharePublicKey;
+        distributedKey.encryptedKeys[operatorIndex - 1] = encryptedKey;
+        distributedKey.confirmations &= 1 << (operatorIndex - 1);
+        uint256 requiredConfirmations = (1 << distributedKey.operatorIds.length) - 1;
+        return distributedKey.confirmations == requiredConfirmations;
+    }
+
+    /**
+     * @dev See {ISSVRegistry-activateDistributeKey}.
+     */
+    function activateDistributeKey(uint256 distributedKeyId) external onlyOwner override{
+        DistributedKey memory distributedKey = _distributedKeys[distributedKeyId];
+        require(distributedKey.operatorIds.length > 0, "distributed key not found");
+
+        uint256 requiredConfirmations = (1 << distributedKey.operatorIds.length) - 1;
+        require(distributedKey.confirmations == requiredConfirmations, "distributed key is not confirmed");
+
+        _addValidator(distributedKey.ownerAddress, distributedKey.publicKey, distributedKey.operatorIds, distributedKey.sharesPublicKeys, distributedKey.encryptedKeys);
+    }
+
+    /**
      * @dev See {ISSVRegistry-registerValidator}.
      */
-    function registerValidator(
+     function registerValidator(
         address ownerAddress,
         bytes calldata publicKey,
         uint256[] calldata operatorIds,
@@ -159,22 +230,8 @@ contract SSVRegistry is Initializable, OwnableUpgradeable, ISSVRegistry {
             sharesPublicKeys,
             encryptedKeys
         );
-        require(
-            _validators[publicKey].ownerAddress == address(0),
-            "validator with same public key already exists"
-        );
 
-        _validators[publicKey] = Validator(ownerAddress, operatorIds, true, _validatorsByOwnerAddress[ownerAddress].length);
-        _validatorsByOwnerAddress[ownerAddress].push(publicKey);
-
-        for (uint256 index = 0; index < operatorIds.length; ++index) {
-            require(++validatorsPerOperator[operatorIds[index]] <= validatorsPerOperatorLimit, "exceed validator limit");
-        }
-
-        ++_activeValidatorCount;
-        ++_owners[_validators[publicKey].ownerAddress].activeValidatorCount;
-
-        emit ValidatorAdded(ownerAddress, publicKey, operatorIds, sharesPublicKeys, encryptedKeys);
+        _addValidator(ownerAddress, publicKey, operatorIds, sharesPublicKeys, encryptedKeys);
     }
 
     /**
@@ -398,5 +455,30 @@ contract SSVRegistry is Initializable, OwnableUpgradeable, ISSVRegistry {
             operatorIds.length >= 4 && operatorIds.length % 3 == 1,
             "OESS data structure is not valid"
         );
+    }
+
+    function _addValidator(
+        address ownerAddress,
+        bytes memory publicKey,
+        uint256[] memory operatorIds,
+        bytes[] memory sharesPublicKeys,
+        bytes[] memory encryptedKeys
+    ) private {
+        require(
+            _validators[publicKey].ownerAddress == address(0),
+            "validator with same public key already exists"
+        );
+
+        _validators[publicKey] = Validator(ownerAddress, operatorIds, true, _validatorsByOwnerAddress[ownerAddress].length);
+        _validatorsByOwnerAddress[ownerAddress].push(publicKey);
+
+        for (uint256 index = 0; index < operatorIds.length; ++index) {
+            require(++validatorsPerOperator[operatorIds[index]] <= validatorsPerOperatorLimit, "exceed validator limit");
+        }
+
+        ++_activeValidatorCount;
+        ++_owners[_validators[publicKey].ownerAddress].activeValidatorCount;
+
+        emit ValidatorAdded(ownerAddress, publicKey, operatorIds, sharesPublicKeys, encryptedKeys);
     }
 }
