@@ -19,10 +19,11 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
     }
 
     struct OwnerData {
-        uint256 deposited;
-        uint256 withdrawn;
-        uint256 earned;
-        uint256 used;
+        uint256 balance;
+//        uint256 deposited;
+//        uint256 withdrawn;
+//        uint256 earned;
+//        uint256 used;
         uint256 networkFee;
         uint256 networkFeeIndex;
         uint256 activeValidatorCount;
@@ -173,7 +174,7 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
      */
     function removeOperator(uint32 operatorId) onlyOperatorOwner(operatorId) external override {
         address owner = _ssvRegistryContract.getOperatorOwner(operatorId);
-        _owners[owner].earned += _operatorDatas[operatorId].earnings;
+        _owners[owner].balance += _operatorDatas[operatorId].earnings;
         delete _operatorDatas[operatorId];
         _ssvRegistryContract.removeOperator(operatorId);
     }
@@ -235,10 +236,10 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
     ) external override {
         uint256 left2 = gasleft();
         uint256 left = gasleft();
-        _updateNetworkEarnings();
-        console.log("NET: _updateNetworkEarnings()");
-        console.log(left - gasleft());
-        left = gasleft();
+//        _updateNetworkEarnings();
+//        console.log("NET: _updateNetworkEarnings()");
+//        console.log(left - gasleft());
+//        left = gasleft();
         _updateAddressNetworkFee(msg.sender);
         console.log("NET: _updateAddressNetworkFee(msg.sender)");
         console.log(left - gasleft());
@@ -482,13 +483,13 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
 
     function _deposit(uint256 tokenAmount) private {
         _token.transferFrom(msg.sender, address(this), tokenAmount);
-        _owners[msg.sender].deposited += tokenAmount;
+        _owners[msg.sender].balance += tokenAmount;
 
         emit FundsDeposited(tokenAmount, msg.sender);
     }
 
     function _withdrawUnsafe(uint256 tokenAmount) private {
-        _owners[msg.sender].withdrawn += tokenAmount;
+        _owners[msg.sender].balance -= tokenAmount;
         _token.transfer(msg.sender, tokenAmount);
 
         emit FundsWithdrawn(tokenAmount, msg.sender);
@@ -521,7 +522,7 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
 
         uint256 balanceToTransfer = _totalBalanceOf(ownerAddress);
 
-        _owners[ownerAddress].used += balanceToTransfer;
+        _owners[ownerAddress].balance = 0;
 
         emit AccountLiquidated(ownerAddress);
 
@@ -650,16 +651,21 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
      * @param increase Change value for validators amount.
      */
     function _updateUsingOperatorByOwner(address ownerAddress, uint32 operatorId, bool increase) private {
+        uint256 left = gasleft();
         OperatorInUse storage operatorInUseData = _operatorsInUseByAddress[ownerAddress][operatorId];
+        console.log("NET: operatorInUseData -_operatorsInUseByAddress ");
+        console.log(left - gasleft());
 
         if (operatorInUseData.exists) {
             _updateOperatorUsageByOwner(operatorInUseData, ownerAddress, operatorId);
+            console.log("NET: operatorInUseData -_updateOperatorUsageByOwner ");
+            console.log(left - gasleft());
 
             if (increase) {
                 ++operatorInUseData.validatorCount;
             } else {
                 if (--operatorInUseData.validatorCount == 0) {
-                    _owners[ownerAddress].used += operatorInUseData.used;
+                    _owners[ownerAddress].balance -= operatorInUseData.used;
 
                     // remove from mapping and list;
 
@@ -711,12 +717,18 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
     }
 
     function _updateOperatorUsageByOwner(OperatorInUse storage operatorInUseData, address ownerAddress, uint32 operatorId) private {
+        uint256 left = gasleft();
         operatorInUseData.used = _operatorInUseUsageOf(operatorInUseData, ownerAddress, operatorId);
+        console.log("NET: _updateOperatorUsageByOwner -_operatorInUseUsageOf ");
+        console.log(left - gasleft());
+        left = gasleft();
         operatorInUseData.index = _operatorIndexOf(operatorId);
+        console.log("NET: _updateOperatorUsageByOwner -_operatorIndexOf ");
+        console.log(left - gasleft());
     }
 
     function _expensesOf(address ownerAddress) private view returns(uint256) {
-        uint256 usage =  _owners[ownerAddress].used + _addressNetworkFee(ownerAddress);
+        uint256 usage = _addressNetworkFee(ownerAddress);
         for (uint256 index = 0; index < _operatorsInUseList[ownerAddress].length; ++index) {
             OperatorInUse storage operatorInUseData = _operatorsInUseByAddress[ownerAddress][_operatorsInUseList[ownerAddress][index]];
             usage += _operatorInUseUsageOf(operatorInUseData, ownerAddress, _operatorsInUseList[ownerAddress][index]);
@@ -726,7 +738,7 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
     }
 
     function _totalEarningsOf(address ownerAddress) private view returns (uint256) {
-        uint256 balance = _owners[ownerAddress].earned;
+        uint256 balance = 0;
 
         uint32[] memory operatorsByOwner = _ssvRegistryContract.getOperatorsByOwnerAddress(ownerAddress);
         for (uint256 index = 0; index < operatorsByOwner.length; ++index) {
@@ -737,13 +749,11 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
     }
 
     function _totalBalanceOf(address ownerAddress) private view returns (uint256) {
-        uint256 balance = _owners[ownerAddress].deposited + _totalEarningsOf(ownerAddress);
+        uint256 balance = _owners[ownerAddress].balance + _totalEarningsOf(ownerAddress) - _expensesOf(ownerAddress);
 
-        uint256 usage = _owners[ownerAddress].withdrawn + _expensesOf(ownerAddress);
+        require(balance >= 0, "negative balance");
 
-        require(balance >= usage, "negative balance");
-
-        return balance - usage;
+        return balance;
     }
 
     function _operatorEarnRate(uint32 operatorId) private view returns (uint256) {
