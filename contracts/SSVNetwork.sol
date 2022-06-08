@@ -573,7 +573,8 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
 
         for (uint256 index = 0; index < operatorIds.length; ++index) {
             uint32 operatorId = operatorIds[index];
-            _updateOperatorBalance(operatorId);
+              // TODO: why do we need to update?
+//            _updateOperatorBalance(operatorId);
 
             console.log("NET: update operator balance");
             console.log(left - gasleft());
