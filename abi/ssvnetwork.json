@@ -467,25 +467,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      }
-    ],
-    "name": "burnRate",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -531,19 +512,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "enableAccount",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
       }
@@ -554,8 +522,104 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "ownerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "getAddressBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "ownerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "getAddressBurnRate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "ownerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "getAddressEarnings",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
-    "name": "getApproveOperatorFeePeriod",
+    "name": "getDeclareOperatorFeePeriod",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getExecuteOperatorFeePeriod",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getLiquidationThresholdPeriod",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getNetworkFee",
     "outputs": [
       {
         "internalType": "uint256",
@@ -694,7 +758,39 @@
         "type": "uint256"
       }
     ],
+    "name": "getOperatorEarnings",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "operatorId",
+        "type": "uint256"
+      }
+    ],
     "name": "getOperatorFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getOperatorFeeIncreaseLimit",
     "outputs": [
       {
         "internalType": "uint256",
@@ -757,19 +853,6 @@
         "internalType": "uint256[]",
         "name": "",
         "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getSetOperatorFeePeriod",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -858,7 +941,7 @@
         "type": "address"
       }
     ],
-    "name": "isOwnerValidatorsDisabled",
+    "name": "isLiquidatable",
     "outputs": [
       {
         "internalType": "bool",
@@ -877,7 +960,7 @@
         "type": "address"
       }
     ],
-    "name": "liquidatable",
+    "name": "isOwnerValidatorsDisabled",
     "outputs": [
       {
         "internalType": "bool",
@@ -903,64 +986,6 @@
   },
   {
     "inputs": [],
-    "name": "minimumBlocksBeforeLiquidation",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "networkFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "operatorId",
-        "type": "uint256"
-      }
-    ],
-    "name": "operatorEarningsOf",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "operatorMaxFeeIncrease",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "owner",
     "outputs": [
       {
@@ -970,6 +995,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "reactivateAccount",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -1070,57 +1108,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "validatorsPerOperatorLimit_",
-        "type": "uint256"
-      }
-    ],
-    "name": "setValidatorsPerOperatorLimit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      }
-    ],
-    "name": "totalBalanceOf",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      }
-    ],
-    "name": "totalEarningsOf",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "newOwner",
         "type": "address"
@@ -1135,11 +1122,24 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "newSetOperatorFeePeriod",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateDeclareOperatorFeePeriod",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "newApproveOperatorFeePeriod",
         "type": "uint256"
       }
     ],
-    "name": "updateApproveOperatorFeePeriod",
+    "name": "updateExecuteOperatorFeePeriod",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1152,7 +1152,7 @@
         "type": "uint256"
       }
     ],
-    "name": "updateMinimumBlocksBeforeLiquidation",
+    "name": "updateLiquidationThresholdPeriod",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1178,7 +1178,7 @@
         "type": "uint256"
       }
     ],
-    "name": "updateOperatorMaxFeeIncrease",
+    "name": "updateOperatorFeeIncreaseLimit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1197,19 +1197,6 @@
       }
     ],
     "name": "updateOperatorScore",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "newSetOperatorFeePeriod",
-        "type": "uint256"
-      }
-    ],
-    "name": "updateSetOperatorFeePeriod",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1243,6 +1230,19 @@
       }
     ],
     "name": "updateValidator",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "validatorsPerOperatorLimit_",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateValidatorsPerOperatorLimit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1294,7 +1294,7 @@
         "type": "uint256"
       }
     ],
-    "name": "withdrawNetworkFees",
+    "name": "withdrawNetworkEarnings",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
