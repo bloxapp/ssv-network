@@ -52,6 +52,12 @@
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "senderAddress",
+        "type": "address"
       }
     ],
     "name": "FundsDeposited",
@@ -497,6 +503,11 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "address",
+        "name": "ownerAddress",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "tokenAmount",
