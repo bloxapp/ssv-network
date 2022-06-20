@@ -52,12 +52,6 @@
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "senderAddress",
-        "type": "address"
       }
     ],
     "name": "FundsDeposited",
@@ -80,6 +74,19 @@
       }
     ],
     "name": "FundsWithdrawn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "LiquidationThresholdPeriodUpdated",
     "type": "event"
   },
   {
@@ -230,6 +237,19 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "OperatorFeeIncreaseLimitUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
@@ -324,6 +344,19 @@
       }
     ],
     "name": "OperatorScoreUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "OperatorsPerOwnerLimitUpdated",
     "type": "event"
   },
   {
@@ -452,6 +485,19 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "ValidatorsPerOperatorLimitUpdated",
+    "type": "event"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -503,11 +549,6 @@
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      },
       {
         "internalType": "uint256",
         "name": "tokenAmount",
@@ -870,6 +911,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getOperatorsPerOwnerLimit",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -936,6 +990,11 @@
       {
         "internalType": "uint256",
         "name": "validatorsPerOperatorLimit_",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "operatorsPerOwnerLimit_",
         "type": "uint256"
       }
     ],
@@ -1208,6 +1267,19 @@
       }
     ],
     "name": "updateOperatorScore",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "operatorsPerOwnerLimit_",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateOperatorsPerOwnerLimit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
