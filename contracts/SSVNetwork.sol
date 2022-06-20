@@ -607,7 +607,7 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
         console.log(left - gasleft());
         left = gasleft();
 
-        require(!_liquidatable2(ownerAddress), "not enough balance");
+        require(!_liquidatable(ownerAddress), "not enough balance");
 
         console.log("liquidatable");
         console.log(left - gasleft());
@@ -719,17 +719,13 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
 
     function _updateOperatorUsageByOwner(OperatorInUse storage operatorInUseData, address ownerAddress, uint32 operatorId) private {
         uint256 left = gasleft();
-
-
-        _updateOperatorInUseUsageOf(operatorInUseData, ownerAddress, operatorId);
-
-//        operatorInUseData.used = _operatorInUseUsageOf(operatorInUseData, ownerAddress, operatorId);
-//        console.log("NET: _updateOperatorUsageByOwner -_operatorInUseUsageOf ");
-//        console.log(left - gasleft());
-//        left = gasleft();
-//        operatorInUseData.index = _operatorIndexOf(operatorId);
-//        console.log("NET: _updateOperatorUsageByOwner -_operatorIndexOf ");
-//        console.log(left - gasleft());
+        operatorInUseData.used = _operatorInUseUsageOf(operatorInUseData, ownerAddress, operatorId);
+        console.log("NET: _updateOperatorUsageByOwner -_operatorInUseUsageOf ");
+        console.log(left - gasleft());
+        left = gasleft();
+        operatorInUseData.index = _operatorIndexOf(operatorId);
+        console.log("NET: _updateOperatorUsageByOwner -_operatorIndexOf ");
+        console.log(left - gasleft());
     }
 
     function _expensesOf(address ownerAddress) private view returns(uint64) {
@@ -808,45 +804,6 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
         return !_owners[msg.sender].validatorsDisabled && _overdue(ownerAddress);
     }
 
-    function _liquidatable2(address ownerAddress) private view returns (bool) {
-        uint256 left = gasleft();
-
-        uint64 _totalEarningsOf = 0;
-
-        uint32[] memory operatorsByOwner = _ssvRegistryContract.getOperatorsByOwnerAddress(ownerAddress);
-        for (uint64 index = 0; index < operatorsByOwner.length; ++index) {
-            _totalEarningsOf += _operatorEarningsOf(operatorsByOwner[index]);
-        }
-
-
-        console.log("NET: _liquidatable2 -_totalEarningsOf ");
-        console.log(left - gasleft());
-        left = gasleft();
-
-
-
-        uint64 _expensesOf = _addressNetworkFee(ownerAddress);
-        uint256 len = _operatorsInUseList[ownerAddress].length;
-        for (uint64 index = 0; index < len; ++index) {
-            OperatorInUse storage operatorInUseData = _operatorsInUseByAddress[ownerAddress][_operatorsInUseList[ownerAddress][index]];
-            _expensesOf += _operatorInUseUsageOf(operatorInUseData, ownerAddress, _operatorsInUseList[ownerAddress][index]);
-        }
-
-        console.log("NET: _liquidatable2 -_expensesOf ");
-        console.log(len);
-        console.log(left - gasleft());
-        left = gasleft();
-
-        uint64 _totalBalanceOf = _owners[ownerAddress].balance + _totalEarningsOf - _expensesOf;
-        console.log("NET: _liquidatable2 -_totalBalanceOf ");
-        console.log(left - gasleft());
-
-
-        bool _overdue = _totalBalanceOf < _minimumBlocksBeforeLiquidation * _burnRate(ownerAddress);
-
-        return !_owners[msg.sender].validatorsDisabled && _overdue;
-    }
-
     function _canLiquidate(address ownerAddress) private view returns (bool) {
         return !_owners[msg.sender].validatorsDisabled && (msg.sender == ownerAddress || _overdue(ownerAddress));
     }
@@ -892,31 +849,6 @@ contract SSVNetwork is Initializable, OwnableUpgradeable, ISSVNetwork, Versioned
                 _owners[ownerAddress].validatorsDisabled ? 0 :
                 (x - operatorInUseData.index) * operatorInUseData.validatorCount
                );
-    }
-
-    function _updateOperatorInUseUsageOf(OperatorInUse storage operatorInUseData, address ownerAddress, uint32 operatorId) private returns (uint64) {
-
-        uint256 left = gasleft();
-
-        OperatorData memory a = _operatorDatas[operatorId];
-        uint64 b = _ssvRegistryContract.getOperatorCurrentFee(operatorId);
-
-        uint64 index = a.index +
-        b * (uint64(block.number) - a.indexBlockNumber);
-
-
-
-        console.log("NET: _updateOperatorUsageByOwner -_operatorInUseUsageOf3 ");
-        console.log(left - gasleft());
-
-        operatorInUseData.used = operatorInUseData.used + (
-        _owners[ownerAddress].validatorsDisabled ? 0 :
-        (index - operatorInUseData.index) * operatorInUseData.validatorCount
-        );
-
-        operatorInUseData.index = index;
-
-        return index;
     }
 
     function _operatorInUseBurnRateWithNetworkFeeUnsafe(address ownerAddress, uint32 operatorId) private view returns (uint64) {
