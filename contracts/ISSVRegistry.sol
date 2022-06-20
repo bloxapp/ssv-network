@@ -48,8 +48,8 @@ interface ISSVRegistry {
         uint32 operatorId,
         address indexed ownerAddress,
         bytes publicKey,
-        uint256 blockNumber,
-        uint256 fee
+        uint64 blockNumber,
+        uint64 fee
     );
 
     /**
@@ -63,8 +63,8 @@ interface ISSVRegistry {
         uint32 operatorId,
         address indexed ownerAddress,
         bytes publicKey,
-        uint256 blockNumber,
-        uint256 score
+        uint64 blockNumber,
+        uint64 score
     );
 
     /**
@@ -117,7 +117,7 @@ interface ISSVRegistry {
      * @param publicKey Operator's public key. Will be used to encrypt secret shares of validators keys.
      * @param fee The fee which the operator charges for each block.
      */
-    function registerOperator(string calldata name, address ownerAddress, bytes calldata publicKey, uint256 fee) external returns (uint32);
+    function registerOperator(string calldata name, address ownerAddress, bytes calldata publicKey, uint64 fee) external returns (uint32);
 
     /**
      * @dev removes an operator.
@@ -144,7 +144,7 @@ interface ISSVRegistry {
      */
     function updateOperatorFee(
         uint32 operatorId,
-        uint256 fee
+        uint64 fee
     ) external;
 
     /**
@@ -209,7 +209,7 @@ interface ISSVRegistry {
             string memory,
             address,
             bytes memory,
-            uint256,
+            uint64,
             bool
         );
 
@@ -241,7 +241,7 @@ interface ISSVRegistry {
      */
     function getOperatorCurrentFee(uint32 operatorId)
         external view
-        returns (uint256);
+        returns (uint64);
 
     /**
      * @dev Gets active validator count.
