@@ -52,6 +52,12 @@
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "senderAddress",
+        "type": "address"
       }
     ],
     "name": "FundsDeposited",
@@ -137,7 +143,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -150,7 +156,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
@@ -168,7 +174,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -193,7 +199,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -212,7 +218,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -256,7 +262,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -287,7 +293,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -306,7 +312,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -325,7 +331,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -344,19 +350,6 @@
       }
     ],
     "name": "OperatorScoreUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "name": "OperatorsPerOwnerLimitUpdated",
     "type": "event"
   },
   {
@@ -388,7 +381,7 @@
         "type": "uint256"
       }
     ],
-    "name": "SetOperatorFeePeriodUpdated",
+    "name": "RegisteredOperatorsPerAccountLimitUpdated",
     "type": "event"
   },
   {
@@ -396,12 +389,25 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetOperatorFeePeriodUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -432,13 +438,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -451,13 +457,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -550,6 +556,11 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "ownerAddress",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "tokenAmount",
         "type": "uint256"
@@ -601,25 +612,6 @@
       }
     ],
     "name": "getAddressBurnRate",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      }
-    ],
-    "name": "getAddressEarnings",
     "outputs": [
       {
         "internalType": "uint256",
@@ -810,25 +802,6 @@
         "type": "uint256"
       }
     ],
-    "name": "getOperatorEarnings",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "operatorId",
-        "type": "uint256"
-      }
-    ],
     "name": "getOperatorFee",
     "outputs": [
       {
@@ -856,44 +829,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "operatorId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getOperatorPreviousFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      }
-    ],
-    "name": "getOperatorsByOwnerAddress",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -912,7 +847,7 @@
   },
   {
     "inputs": [],
-    "name": "getOperatorsPerOwnerLimit",
+    "name": "getRegisteredOperatorsPerAccountLimit",
     "outputs": [
       {
         "internalType": "uint256",
@@ -994,7 +929,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "operatorsPerOwnerLimit_",
+        "name": "registeredOperatorsPerAccountLimit_",
         "type": "uint256"
       }
     ],
@@ -1030,7 +965,7 @@
         "type": "address"
       }
     ],
-    "name": "isOwnerValidatorsDisabled",
+    "name": "isLiquidated",
     "outputs": [
       {
         "internalType": "bool",
@@ -1275,11 +1210,11 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "operatorsPerOwnerLimit_",
+        "name": "registeredOperatorsPerAccountLimit_",
         "type": "uint256"
       }
     ],
-    "name": "updateOperatorsPerOwnerLimit",
+    "name": "updateRegisteredOperatorsPerAccountLimit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
