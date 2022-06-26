@@ -3,7 +3,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -15,7 +15,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -28,7 +28,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -46,7 +46,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -59,7 +59,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -71,7 +71,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -84,7 +84,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -96,7 +96,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -121,7 +121,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -133,7 +133,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -146,7 +146,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "operatorId",
         "type": "uint256"
@@ -158,7 +158,7 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -183,7 +183,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
@@ -196,7 +196,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
@@ -228,13 +228,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -265,13 +265,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -284,13 +284,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes",
         "name": "publicKey",
         "type": "bytes"
@@ -512,7 +512,7 @@
   },
   {
     "inputs": [],
-    "name": "getOperatorsPerOwnerLimit",
+    "name": "getRegisteredOperatorsPerAccountLimit",
     "outputs": [
       {
         "internalType": "uint256",
@@ -583,7 +583,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "operatorsPerOwnerLimit_",
+        "name": "registeredOperatorsPerAccountLimit_",
         "type": "uint256"
       }
     ],
@@ -600,25 +600,12 @@
         "type": "address"
       }
     ],
-    "name": "isOwnerValidatorsDisabled",
+    "name": "isLiquidated",
     "outputs": [
       {
         "internalType": "bool",
         "name": "",
         "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "operatorsPerOwnerLimit",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -702,6 +689,19 @@
     "name": "registerValidator",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "registeredOperatorsPerAccountLimit",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -790,11 +790,11 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_operatorsPerOwnerLimit",
+        "name": "_registeredOperatorsPerAccountLimit",
         "type": "uint256"
       }
     ],
-    "name": "updateOperatorsPerOwnerLimit",
+    "name": "updateRegisteredOperatorsPerAccountLimit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
