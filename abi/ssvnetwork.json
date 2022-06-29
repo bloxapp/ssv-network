@@ -35,7 +35,20 @@
         "type": "uint256"
       }
     ],
-    "name": "ApproveOperatorFeePeriodUpdated",
+    "name": "DeclareOperatorFeePeriodUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "ExecuteOperatorFeePeriodUpdated",
     "type": "event"
   },
   {
@@ -388,19 +401,6 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "name": "SetOperatorFeePeriodUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
@@ -530,7 +530,7 @@
         "type": "uint256"
       }
     ],
-    "name": "cancelDeclaredOperatorFee",
+    "name": "cancelDeclareOperatorFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -718,6 +718,16 @@
         "type": "uint256"
       },
       {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
         "internalType": "bool",
         "name": "",
         "type": "bool"
@@ -757,6 +767,16 @@
         "type": "uint256"
       },
       {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
         "internalType": "bool",
         "name": "",
         "type": "bool"
@@ -773,7 +793,7 @@
         "type": "uint256"
       }
     ],
-    "name": "getOperatorDeclaredFee",
+    "name": "getOperatorDeclareFee",
     "outputs": [
       {
         "internalType": "uint256",
@@ -914,12 +934,12 @@
       },
       {
         "internalType": "uint256",
-        "name": "setOperatorFeePeriod_",
+        "name": "declareOperatorFeePeriod_",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "approveOperatorFeePeriod_",
+        "name": "executeOperatorFeePeriod_",
         "type": "uint256"
       },
       {
@@ -1127,7 +1147,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "newSetOperatorFeePeriod",
+        "name": "newDeclareOperatorFeePeriod",
         "type": "uint256"
       }
     ],
@@ -1140,7 +1160,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "newApproveOperatorFeePeriod",
+        "name": "newExecuteOperatorFeePeriod",
         "type": "uint256"
       }
     ],
