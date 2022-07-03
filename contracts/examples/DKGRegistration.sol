@@ -82,7 +82,7 @@ contract DKGRegistration {
         signature = dkgRegistry.depositSignatureForValidator(validator);
 
         // Compute deposit data root (`DepositData` hash tree root) according to deposit_contract.sol
-        // Taken from https://github.com/lidofinance/lido-dao/blob/master/contracts/0.4.24/Lido.sol#L526-L542
+        // Taken from https://github.com/ethereum/consensus-specs/blob/dev/solidity_deposit_contract/deposit_contract.sol#L128-L137
         // NOT COMPILABLE
         bytes32 pubkeyRoot = sha256(_pad64(validator));
         bytes32 signatureRoot = sha256(
