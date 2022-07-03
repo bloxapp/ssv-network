@@ -366,14 +366,14 @@ describe('SSV Network', function () {
     await expect(ssvNetwork.withdrawNetworkEarnings(60)).to.be.revertedWith('not enough balance');
   });
 
-  it('Update set operator fee period', async function () {
+  it('Update declared operator fee period', async function () {
     await expect(ssvNetwork.updateDeclareOperatorFeePeriod(DAY)).to.emit(ssvNetwork, 'SetOperatorFeePeriodUpdated').withArgs(DAY);
-    expect(await ssvNetwork.getExecuteOperatorFeePeriod()).to.equal(DAY);
+    expect(await ssvNetwork.getDeclareOperatorFeePeriod()).to.equal(DAY);
   });
-
+  
   it('Update approve operator fee period', async function () {
     await expect(ssvNetwork.updateExecuteOperatorFeePeriod(DAY)).to.emit(ssvNetwork, 'ApproveOperatorFeePeriodUpdated').withArgs(DAY);
-    expect(await ssvNetwork.getDeclareOperatorFeePeriod()).to.equal(DAY);
+    expect(await ssvNetwork.getExecuteOperatorFeePeriod()).to.equal(DAY);
   });
 
   it('Create an operator with low fee', async function () {
