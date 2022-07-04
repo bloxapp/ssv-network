@@ -530,7 +530,7 @@
         "type": "uint256"
       }
     ],
-    "name": "cancelDeclareOperatorFee",
+    "name": "cancelDeclaredOperatorFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -624,7 +624,7 @@
   },
   {
     "inputs": [],
-    "name": "getDeclareOperatorFeePeriod",
+    "name": "getDeclaredOperatorFeePeriod",
     "outputs": [
       {
         "internalType": "uint256",
@@ -793,7 +793,7 @@
         "type": "uint256"
       }
     ],
-    "name": "getOperatorDeclareFee",
+    "name": "getOperatorDeclaredFee",
     "outputs": [
       {
         "internalType": "uint256",
