@@ -9,7 +9,7 @@
         "type": "address"
       }
     ],
-    "name": "AccountEnabled",
+    "name": "AccountEnable",
     "type": "event"
   },
   {
@@ -22,7 +22,7 @@
         "type": "address"
       }
     ],
-    "name": "AccountLiquidated",
+    "name": "AccountLiquidation",
     "type": "event"
   },
   {
@@ -35,7 +35,26 @@
         "type": "uint256"
       }
     ],
-    "name": "DeclareOperatorFeePeriodUpdated",
+    "name": "DeclareOperatorFeePeriodUpdate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "ownerAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "operatorId",
+        "type": "uint32"
+      }
+    ],
+    "name": "DeclaredOperatorFeeCancelation",
     "type": "event"
   },
   {
@@ -48,7 +67,7 @@
         "type": "uint256"
       }
     ],
-    "name": "ExecuteOperatorFeePeriodUpdated",
+    "name": "ExecuteOperatorFeePeriodUpdate",
     "type": "event"
   },
   {
@@ -73,7 +92,7 @@
         "type": "address"
       }
     ],
-    "name": "FundsDeposited",
+    "name": "FundsDeposit",
     "type": "event"
   },
   {
@@ -92,7 +111,20 @@
         "type": "address"
       }
     ],
-    "name": "FundsWithdrawn",
+    "name": "FundsWithdrawal",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
     "type": "event"
   },
   {
@@ -105,7 +137,33 @@
         "type": "uint256"
       }
     ],
-    "name": "LiquidationThresholdPeriodUpdated",
+    "name": "LiquidationThresholdPeriodUpdate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "ManagingOperatorsPerAccountLimitUpdate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "MinimumBlocksBeforeLiquidationUpdate",
     "type": "event"
   },
   {
@@ -124,7 +182,7 @@
         "type": "uint256"
       }
     ],
-    "name": "NetworkFeeUpdated",
+    "name": "NetworkFeeUpdate",
     "type": "event"
   },
   {
@@ -143,7 +201,7 @@
         "type": "address"
       }
     ],
-    "name": "NetworkFeesWithdrawn",
+    "name": "NetworkFeesWithdrawal",
     "type": "event"
   },
   {
@@ -156,13 +214,25 @@
         "type": "address"
       },
       {
-        "indexed": true,
-        "internalType": "uint256",
+        "indexed": false,
+        "internalType": "uint32",
         "name": "operatorId",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "blockNumber",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "fee",
         "type": "uint256"
       }
     ],
-    "name": "OperatorActivated",
+    "name": "OperatorFeeDeclaration",
     "type": "event"
   },
   {
@@ -170,9 +240,66 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "address",
+        "name": "ownerAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "operatorId",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
-        "name": "id",
+        "name": "blockNumber",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "OperatorFeeExecution",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "OperatorFeeIncreaseLimitUpdate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "OperatorMaxFeeIncreaseUpdate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint32",
+        "name": "id",
+        "type": "uint32"
       },
       {
         "indexed": false,
@@ -199,57 +326,7 @@
         "type": "uint256"
       }
     ],
-    "name": "OperatorAdded",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "operatorId",
-        "type": "uint256"
-      }
-    ],
-    "name": "OperatorDeactivated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "operatorId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockNumber",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "OperatorFeeApproved",
+    "name": "OperatorRegistration",
     "type": "event"
   },
   {
@@ -257,97 +334,34 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "name": "OperatorFeeIncreaseLimitUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
+        "internalType": "uint32",
+        "name": "operatorId",
+        "type": "uint32"
+      },
       {
         "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "operatorId",
-        "type": "uint256"
-      },
+      }
+    ],
+    "name": "OperatorRemoval",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "blockNumber",
-        "type": "uint256"
+        "internalType": "uint32",
+        "name": "operatorId",
+        "type": "uint32"
       },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "OperatorFeeSet",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
       {
         "indexed": true,
         "internalType": "address",
         "name": "ownerAddress",
         "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "operatorId",
-        "type": "uint256"
-      }
-    ],
-    "name": "OperatorFeeSetCanceled",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "operatorId",
-        "type": "uint256"
-      }
-    ],
-    "name": "OperatorRemoved",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "operatorId",
-        "type": "uint256"
       },
       {
         "indexed": false,
@@ -362,7 +376,7 @@
         "type": "uint256"
       }
     ],
-    "name": "OperatorScoreUpdated",
+    "name": "OperatorScoreUpdate",
     "type": "event"
   },
   {
@@ -394,7 +408,7 @@
         "type": "uint256"
       }
     ],
-    "name": "RegisteredOperatorsPerAccountLimitUpdated",
+    "name": "RegisteredOperatorsPerAccountLimitUpdate",
     "type": "event"
   },
   {
@@ -414,9 +428,9 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256[]",
+        "internalType": "uint32[]",
         "name": "operatorIds",
-        "type": "uint256[]"
+        "type": "uint32[]"
       },
       {
         "indexed": false,
@@ -431,7 +445,7 @@
         "type": "bytes[]"
       }
     ],
-    "name": "ValidatorAdded",
+    "name": "ValidatorRegistration",
     "type": "event"
   },
   {
@@ -450,44 +464,7 @@
         "type": "bytes"
       }
     ],
-    "name": "ValidatorRemoved",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes",
-        "name": "publicKey",
-        "type": "bytes"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256[]",
-        "name": "operatorIds",
-        "type": "uint256[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes[]",
-        "name": "sharesPublicKeys",
-        "type": "bytes[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes[]",
-        "name": "encryptedKeys",
-        "type": "bytes[]"
-      }
-    ],
-    "name": "ValidatorUpdated",
+    "name": "ValidatorRemoval",
     "type": "event"
   },
   {
@@ -500,7 +477,7 @@
         "type": "uint256"
       }
     ],
-    "name": "ValidatorsPerOperatorLimitUpdated",
+    "name": "ValidatorsPerOperatorLimitUpdate",
     "type": "event"
   },
   {
@@ -525,9 +502,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId",
-        "type": "uint256"
+        "type": "uint32"
       }
     ],
     "name": "cancelDeclaredOperatorFee",
@@ -538,13 +515,13 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId",
-        "type": "uint256"
+        "type": "uint32"
       },
       {
         "internalType": "uint256",
-        "name": "fee",
+        "name": "operatorFee",
         "type": "uint256"
       }
     ],
@@ -562,7 +539,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "tokenAmount",
+        "name": "amount",
         "type": "uint256"
       }
     ],
@@ -574,9 +551,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId",
-        "type": "uint256"
+        "type": "uint32"
       }
     ],
     "name": "executeOperatorFee",
@@ -690,9 +667,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId",
-        "type": "uint256"
+        "type": "uint32"
       }
     ],
     "name": "getOperatorById",
@@ -788,9 +765,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId",
-        "type": "uint256"
+        "type": "uint32"
       }
     ],
     "name": "getOperatorDeclaredFee",
@@ -817,9 +794,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId",
-        "type": "uint256"
+        "type": "uint32"
       }
     ],
     "name": "getOperatorFee",
@@ -857,9 +834,9 @@
     "name": "getOperatorsByValidator",
     "outputs": [
       {
-        "internalType": "uint256[]",
+        "internalType": "uint32[]",
         "name": "",
-        "type": "uint256[]"
+        "type": "uint32[]"
       }
     ],
     "stateMutability": "view",
@@ -902,9 +879,9 @@
     "name": "getValidatorsPerOperatorLimit",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "",
-        "type": "uint256"
+        "type": "uint16"
       }
     ],
     "stateMutability": "view",
@@ -943,14 +920,19 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "validatorsPerOperatorLimit_",
-        "type": "uint256"
+        "type": "uint16"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "registeredOperatorsPerAccountLimit_",
-        "type": "uint256"
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "managingOperatorsPerAccountLimit_",
+        "type": "uint16"
       }
     ],
     "name": "initialize",
@@ -1026,7 +1008,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenAmount",
+        "name": "amount",
         "type": "uint256"
       }
     ],
@@ -1056,9 +1038,9 @@
     "name": "registerOperator",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId",
-        "type": "uint256"
+        "type": "uint32"
       }
     ],
     "stateMutability": "nonpayable",
@@ -1072,9 +1054,9 @@
         "type": "bytes"
       },
       {
-        "internalType": "uint256[]",
+        "internalType": "uint32[]",
         "name": "operatorIds",
-        "type": "uint256[]"
+        "type": "uint32[]"
       },
       {
         "internalType": "bytes[]",
@@ -1083,12 +1065,12 @@
       },
       {
         "internalType": "bytes[]",
-        "name": "encryptedKeys",
+        "name": "sharesEncrypted",
         "type": "bytes[]"
       },
       {
         "internalType": "uint256",
-        "name": "tokenAmount",
+        "name": "amount",
         "type": "uint256"
       }
     ],
@@ -1100,9 +1082,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId",
-        "type": "uint256"
+        "type": "uint32"
       }
     ],
     "name": "removeOperator",
@@ -1173,7 +1155,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "newMinimumBlocksBeforeLiquidation",
+        "name": "blocks",
         "type": "uint256"
       }
     ],
@@ -1211,14 +1193,14 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId",
-        "type": "uint256"
+        "type": "uint32"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "score",
-        "type": "uint256"
+        "type": "uint16"
       }
     ],
     "name": "updateOperatorScore",
@@ -1229,9 +1211,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "registeredOperatorsPerAccountLimit_",
-        "type": "uint256"
+        "internalType": "uint16",
+        "name": "value",
+        "type": "uint16"
       }
     ],
     "name": "updateRegisteredOperatorsPerAccountLimit",
@@ -1247,9 +1229,9 @@
         "type": "bytes"
       },
       {
-        "internalType": "uint256[]",
+        "internalType": "uint32[]",
         "name": "operatorIds",
-        "type": "uint256[]"
+        "type": "uint32[]"
       },
       {
         "internalType": "bytes[]",
@@ -1258,12 +1240,12 @@
       },
       {
         "internalType": "bytes[]",
-        "name": "encryptedKeys",
+        "name": "sharesEncrypted",
         "type": "bytes[]"
       },
       {
         "internalType": "uint256",
-        "name": "tokenAmount",
+        "name": "amount",
         "type": "uint256"
       }
     ],
@@ -1275,9 +1257,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "validatorsPerOperatorLimit_",
-        "type": "uint256"
+        "internalType": "uint16",
+        "name": "value",
+        "type": "uint16"
       }
     ],
     "name": "updateValidatorsPerOperatorLimit",
@@ -1288,27 +1270,40 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint32",
         "name": "operatorId_",
-        "type": "uint256"
+        "type": "uint32"
       }
     ],
     "name": "validatorsPerOperatorCount",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "",
-        "type": "uint256"
+        "type": "uint16"
       }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "version",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenAmount",
+        "name": "amount",
         "type": "uint256"
       }
     ],
