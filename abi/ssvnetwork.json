@@ -1,5 +1,65 @@
 [
   {
+    "inputs": [],
+    "name": "AccountAlreadyEnabled",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ApprovalNotWithinTimeframe",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "BurnRatePositive",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "CallerNotOperatorOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "CallerNotValidatorOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "FeeExceedsIncreaseLimit",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "FeeTooLow",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NegativeBalance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NoPendingFeeChangeRequest",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotEnoughBalance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "OperatorWithPublicKeyNotExist",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ValidatorWithPublicKeyNotExist",
+    "type": "error"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -138,19 +198,6 @@
       }
     ],
     "name": "LiquidationThresholdPeriodUpdate",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "name": "ManagingOperatorsPerAccountLimitUpdate",
     "type": "event"
   },
   {
@@ -843,19 +890,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getRegisteredOperatorsPerAccountLimit",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -869,19 +903,6 @@
         "internalType": "bytes[]",
         "name": "",
         "type": "bytes[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getValidatorsPerOperatorLimit",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
       }
     ],
     "stateMutability": "view",
@@ -918,21 +939,6 @@
         "internalType": "uint256",
         "name": "executeOperatorFeePeriod_",
         "type": "uint256"
-      },
-      {
-        "internalType": "uint16",
-        "name": "validatorsPerOperatorLimit_",
-        "type": "uint16"
-      },
-      {
-        "internalType": "uint16",
-        "name": "registeredOperatorsPerAccountLimit_",
-        "type": "uint16"
-      },
-      {
-        "internalType": "uint16",
-        "name": "managingOperatorsPerAccountLimit_",
-        "type": "uint16"
       }
     ],
     "name": "initialize",
@@ -1198,25 +1204,12 @@
         "type": "uint32"
       },
       {
-        "internalType": "uint16",
+        "internalType": "uint32",
         "name": "score",
-        "type": "uint16"
+        "type": "uint32"
       }
     ],
     "name": "updateOperatorScore",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint16",
-        "name": "value",
-        "type": "uint16"
-      }
-    ],
-    "name": "updateRegisteredOperatorsPerAccountLimit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1257,30 +1250,17 @@
   {
     "inputs": [
       {
-        "internalType": "uint16",
-        "name": "value",
-        "type": "uint16"
-      }
-    ],
-    "name": "updateValidatorsPerOperatorLimit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint32",
-        "name": "operatorId_",
+        "name": "operatorId",
         "type": "uint32"
       }
     ],
     "name": "validatorsPerOperatorCount",
     "outputs": [
       {
-        "internalType": "uint16",
+        "internalType": "uint32",
         "name": "",
-        "type": "uint16"
+        "type": "uint32"
       }
     ],
     "stateMutability": "view",
