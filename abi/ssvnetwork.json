@@ -11,6 +11,11 @@
   },
   {
     "inputs": [],
+    "name": "BelowMinimumBlockPeriod",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "BurnRatePositive",
     "type": "error"
   },
@@ -22,6 +27,11 @@
   {
     "inputs": [],
     "name": "CallerNotValidatorOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ExceedManagingOperatorsPerAccountLimit",
     "type": "error"
   },
   {
