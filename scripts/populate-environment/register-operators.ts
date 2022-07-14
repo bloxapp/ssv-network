@@ -13,10 +13,10 @@ const operatorFee = 2085027410000
 // Build infura provider on the Goerli network
 const network = "goerli"
 const provider = ethers.getDefaultProvider(network, {
-  etherscan: 'ANXN5ZHTDYJFDS6DW57YEEMV5BP99HQHB6',
+  etherscan: '',
   infura: {
-    projectId: 'b3ea805fd0ab45d69f474e003cc1aa0c',
-    projectSecret: '50f93910a27d4dda8ec948b24b4ee765',
+    projectId: '',
+    projectSecret: '',
   }
 })
 
