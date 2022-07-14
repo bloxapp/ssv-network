@@ -1,0 +1,51 @@
+// Register 12 operators
+
+// Declare all imports and requires
+import { ethers } from 'hardhat'
+const accountsJSON = require('./accountData.json')
+const operators = require('./operators.json')
+
+// Define global variables
+const ssvNetworkAddress = process.env.SSVNETWORK_ADDRESS
+let ssvNetwork: any
+const operatorFee = 2085027410000
+
+// Build infura provider on the Goerli network
+const network = "goerli"
+const provider = ethers.getDefaultProvider(network, {
+  etherscan: 'ANXN5ZHTDYJFDS6DW57YEEMV5BP99HQHB6',
+  infura: {
+    projectId: 'b3ea805fd0ab45d69f474e003cc1aa0c',
+    projectSecret: '50f93910a27d4dda8ec948b24b4ee765',
+  }
+})
+
+//Use infura provider to build accounts that can sign
+//@ts-ignore
+const accounts = accountsJSON.operators.map(account => new ethers.Wallet(account.privateKey, provider))
+
+async function registerOperators() {
+  // Attach SSV Network Contract
+  const ssvNetworkFactory = await ethers.getContractFactory('SSVNetwork')
+  // @ts-ignore
+  ssvNetwork = ssvNetworkFactory.attach(ssvNetworkAddress)
+  console.log('Successfully Attached to the SSV Network Contract')
+
+  // Go through operators.json and register them to the contract
+  for (let i = 0; i < operators.length; i++) {
+    try {
+      await ssvNetwork.connect(accounts[i < operators.length / 2 ? 0 : 1]).registerOperator(operators[i].name, operators[i].encodedABI, operatorFee)
+      console.log(`Successfully registered operator: ${operators[i].name}`)
+    } catch (e) { console.log(e) }
+
+    // Wait 10 seconds
+    await new Promise(r => setTimeout(r, 60000))
+  }
+}
+
+registerOperators()
+  .then(() => process.exit(0))
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });

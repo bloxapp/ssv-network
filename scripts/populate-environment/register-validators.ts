@@ -1,0 +1,115 @@
+// Register 100 Validators
+
+// Declare all imports and requires
+import { ethers } from 'hardhat'
+import Web3 from 'web3'
+import { encode } from 'js-base64'
+import { EthereumKeyStore, Encryption, Threshold } from 'ssv-keys'
+import { EncryptShare } from 'ssv-keys/src/lib/Encryption/Encryption'
+const operatorBatches = require('./operatorBatches.json')
+const accountsJSON = require('./accountData.json')
+const fs = require('fs')
+
+// Define global variables
+const ssvTokenAddress = process.env.SSVTOKEN_ADDRESS
+const ssvNetworkAddress = process.env.SSVNETWORK_ADDRESS
+const keystoresPath = '/Users/andrew/Downloads/staking_deposit-cli-ce8cbb6-darwin-amd64/validator_keys/done/'
+let ssvToken: any, ssvNetwork: any
+let result = {}
+const keystorePassword = '123123123'
+const tokenAmount = "5000000000000000000"
+
+// Build infura provider on the Goerli network
+const network = "goerli"
+const provider = ethers.getDefaultProvider(network, {
+  etherscan: 'ANXN5ZHTDYJFDS6DW57YEEMV5BP99HQHB6',
+  infura: {
+    projectId: 'b3ea805fd0ab45d69f474e003cc1aa0c',
+    projectSecret: '50f93910a27d4dda8ec948b24b4ee765',
+  }
+})
+
+//Use infura provider to build accounts that can sign
+//@ts-ignore
+let accounts = accountsJSON.validators.map(account => new ethers.Wallet(account.privateKey, provider))
+
+async function registerValidators() {
+  // Attach SSV Network and Token Contracts
+  const ssvTokenFactory = await ethers.getContractFactory('SSVTokenMock')
+  const ssvNetworkFactory = await ethers.getContractFactory('SSVNetwork')
+  // @ts-ignore
+  ssvToken = ssvTokenFactory.attach(ssvTokenAddress)
+  console.log('Successfully Attached to the SSV Token Contract')
+  // @ts-ignore
+  ssvNetwork = ssvNetworkFactory.attach(ssvNetworkAddress)
+  console.log('Successfully Attached to the SSV Network Contract')
+
+  // Approve accounts to the contract
+  for (let i = 0; i < accounts.length; i++) {
+    await ssvToken.connect(accounts[i]).approve(ssvNetwork.address, '20000000000000000000000')
+    console.log(`Successfully Approved ${accountsJSON.validators[i].name}`)
+    await new Promise(r => setTimeout(r, 1500))
+  }
+
+  // Build connection to the path of the keystores
+  const dir = await fs.promises.opendir(keystoresPath)
+
+  // Loop through all the keystores and build there payloads
+  for await (const keystoreFile of dir) {
+    const keystorePath = require(keystoresPath + keystoreFile.name)
+    const keyStore = new EthereumKeyStore(JSON.stringify(keystorePath))
+
+    // Get private key from the keystore using the keystore password
+    const privateKey = await keyStore.getPrivateKey(keystorePassword)
+    const publicKey = await keyStore.getPublicKey()
+
+    // Assign batch based on modulus of first 8 integers of validators public key
+    const batchNumber = parseInt(publicKey.substring(0, 8), 16) % 3
+
+    // Build the shares
+    const thresholdInstance = new Threshold()
+    const threshold = await thresholdInstance.create(privateKey, operatorBatches.IDs[batchNumber])
+    let shares = new Encryption(operatorBatches.publicKeys[batchNumber], threshold.shares).encrypt()
+    shares = shares.map((share: EncryptShare) => {
+      share.operatorPublicKey = encode(share.operatorPublicKey)
+      return share
+    })
+
+    // Build the transaction payload
+    const web3 = new Web3()
+    const sharePublicKeys = shares.map((share: EncryptShare) => share.publicKey)
+    const sharePrivateKeys = shares.map((share: EncryptShare) => web3.eth.abi.encodeParameter('string', share.privateKey))
+
+    // Send transaction to the contract
+    await ssvNetwork.connect(accounts[batchNumber]).registerValidator(
+      `0x${publicKey}`,
+      operatorBatches.IDs[batchNumber],
+      sharePublicKeys,
+      sharePrivateKeys,
+      tokenAmount
+    ).then(() => {
+      console.log(`Successfully Registered Validator ${publicKey} to batch number ${batchNumber}`)
+      // Populate the result object with public key to batch number
+      if (!result.hasOwnProperty(batchNumber)) {
+        //@ts-ignore
+        result[batchNumber] = []
+      }
+      //@ts-ignore
+      result[batchNumber].push(publicKey)
+
+      //@ts-ignore
+    }).catch((e) => { console.log(e) })
+  }
+
+  // Log and save json file of all the validators public key and batches
+  console.log(result)
+  // @ts-ignore
+  fs.writeFileSync("ValidatorBatches.json", JSON.stringify(result), function (err) { if (err) console.log(err) })
+}
+
+registerValidators()
+  .then(() => process.exit(0))
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });
