@@ -931,24 +931,24 @@
         "type": "address"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "minimumBlocksBeforeLiquidation_",
-        "type": "uint256"
+        "type": "uint64"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "operatorMaxFeeIncrease_",
-        "type": "uint256"
+        "type": "uint64"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "declareOperatorFeePeriod_",
-        "type": "uint256"
+        "type": "uint64"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "executeOperatorFeePeriod_",
-        "type": "uint256"
+        "type": "uint64"
       }
     ],
     "name": "initialize",
@@ -1144,9 +1144,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "newDeclareOperatorFeePeriod",
-        "type": "uint256"
+        "type": "uint64"
       }
     ],
     "name": "updateDeclareOperatorFeePeriod",
@@ -1157,9 +1157,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "newExecuteOperatorFeePeriod",
-        "type": "uint256"
+        "type": "uint64"
       }
     ],
     "name": "updateExecuteOperatorFeePeriod",
@@ -1170,9 +1170,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "blocks",
-        "type": "uint256"
+        "type": "uint64"
       }
     ],
     "name": "updateLiquidationThresholdPeriod",
@@ -1196,9 +1196,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "newOperatorMaxFeeIncrease",
-        "type": "uint256"
+        "type": "uint64"
       }
     ],
     "name": "updateOperatorFeeIncreaseLimit",
