@@ -219,9 +219,9 @@
     "name": "getOperatorFee",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "",
-        "type": "uint256"
+        "type": "uint64"
       }
     ],
     "stateMutability": "view",
@@ -379,9 +379,9 @@
         "type": "bytes"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "fee",
-        "type": "uint256"
+        "type": "uint64"
       }
     ],
     "name": "registerOperator",
@@ -482,9 +482,9 @@
         "type": "uint32"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint64",
         "name": "fee",
-        "type": "uint256"
+        "type": "uint64"
       }
     ],
     "name": "updateOperatorFee",
